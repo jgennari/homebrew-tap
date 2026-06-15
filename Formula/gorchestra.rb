@@ -1,8 +1,8 @@
 class Gorchestra < Formula
   desc "Self-contained AI coding agent orchestration runtime"
   homepage "https://github.com/jgennari/gorchestra"
-  url "https://github.com/jgennari/gorchestra/archive/refs/tags/v0.1.2.tar.gz"
-  sha256 "a76649df56eaa1c3ca66879a46c591c6526a7f475bf2599be19c8cab64432623"
+  url "https://github.com/jgennari/gorchestra/archive/refs/tags/v0.1.4.tar.gz"
+  sha256 "ace1c2b4d99adede49c4a5a792d4104a01e48c9925fcea30ac5670a320d9b2c0"
   license "MIT"
   head "https://github.com/jgennari/gorchestra.git", branch: "main"
 
@@ -15,6 +15,41 @@ class Gorchestra < Formula
         ldflags: "-s -w -X main.version=#{version}",
       ),
       "./cmd/app"
+  end
+
+  def post_install
+    (var/"gorchestra").mkpath
+    (var/"log").mkpath
+
+    config_dir = etc/"gorchestra"
+    config_dir.mkpath
+    config_file = config_dir/"gorchestra.env"
+    return if config_file.exist?
+
+    config_file.write <<~EOS
+      # Gorchestra Homebrew service configuration.
+      GORCHESTRA_HOST=127.0.0.1
+      GORCHESTRA_PORT=15173
+      GORCHESTRA_DATA_DIR=#{var}/gorchestra
+      GORCHESTRA_WORKSPACE=~
+      GORCHESTRA_WORKSPACE_ROOTS=~
+      GORCHESTRA_OPEN=false
+
+      # Uncomment and edit these if your Codex CLI or defaults differ.
+      # GORCHESTRA_CODEX_BIN=codex
+      # GORCHESTRA_CODEX_MODEL=gpt-5
+      # GORCHESTRA_CODEX_SANDBOX=workspace-write
+      # GORCHESTRA_CODEX_NETWORK_ACCESS=true
+      # GORCHESTRA_CODEX_WEB_SEARCH=live
+    EOS
+  end
+
+  service do
+    run [opt_bin/"gorchestra", "--config", etc/"gorchestra/gorchestra.env"]
+    keep_alive true
+    environment_variables PATH: std_service_path_env
+    log_path var/"log/gorchestra.log"
+    error_log_path var/"log/gorchestra.log"
   end
 
   test do
