@@ -1,8 +1,8 @@
 class Gorchestra < Formula
   desc "Self-contained AI coding agent orchestration runtime"
   homepage "https://github.com/jgennari/gorchestra"
-  url "https://github.com/jgennari/gorchestra/archive/refs/tags/v0.2.15.tar.gz"
-  sha256 "6383155720aaec212f95ba10f5f785095f8950e2dbe374193c9df305e0984f6d"
+  url "https://github.com/jgennari/gorchestra/archive/refs/tags/v0.2.16.tar.gz"
+  sha256 "184178e4623f3b2accbd7ffa44847b52eb5b6d52805cfce34f964673e8fe9838"
   license "MIT"
   head "https://github.com/jgennari/gorchestra.git", branch: "main"
 
