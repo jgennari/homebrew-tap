@@ -1,8 +1,8 @@
 class Gorchestra < Formula
   desc "Self-contained AI coding agent orchestration runtime"
   homepage "https://github.com/jgennari/gorchestra"
-  url "https://github.com/jgennari/gorchestra/archive/refs/tags/v0.9.4.tar.gz"
-  sha256 "e91d59ac86a26ee8a6df3220eb4c59ce0c25c854e3b07e41df4d07d4fb390982"
+  url "https://github.com/jgennari/gorchestra/archive/refs/tags/v0.10.0.tar.gz"
+  sha256 "f886c0c17bed9125df74d3ba78305a61e7dcd55cc5808652025ee5984847e031"
   license "MIT"
   head "https://github.com/jgennari/gorchestra.git", branch: "main"
 
@@ -45,7 +45,7 @@ class Gorchestra < Formula
   end
 
   service do
-    run [opt_bin/"gorchestra", "--config", etc/"gorchestra/gorchestra.env"]
+    run [opt_bin/"gorchestra", "serve", "--config", etc/"gorchestra/gorchestra.env"]
     keep_alive true
     environment_variables PATH: std_service_path_env
     log_path var/"log/gorchestra.log"
